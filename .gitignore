@@ -1,0 +1,9 @@
+backend/.env
+backend/.dockerignore
+data/config.py
+data/test.py
+data/threading_test.py
+data/partition.py
+data/finmind.py
+data/add_table_key.py
+data/adj_price.py
