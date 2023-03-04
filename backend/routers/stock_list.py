@@ -28,32 +28,3 @@ async def get_stock_list(stocktype: str = Query(None, description="股票清單�
     if stock_list:
         return {"stock_list": stock_list}
     return {"error": "Could not fetch stocks"}
-
-# class StockList(BaseModel):
-#     symbol: str
-#     name: str
-
-# class ModelName(str, Enum):
-#     listed = "listed"
-#     OTC = "OTC"
-
-# @router.get("/stocklist/", tags=["stock list"], responses={200: {"model": StockResponse}})
-# def get_stock_list(stocktype: ModelName = None):
-#     stock_list = controllers.get_stock_list(stocktype.value if stocktype else None)
-#     if stock_list:
-#         return {"stock_list": stock_list}
-#     return {"error": "Could not fetch stocks"}
-
-# @router.get("/stocklist/", tags=["stock list"], responses={200: {"model": StockResponse}})
-# def get_all_stock_list():
-#     stock_list = controller.get_stock_list()
-#     if stock_list:
-#         return {"stock_list": stock_list}
-#     return {"error": "Could not fetch stocks"}
-
-# @router.get("/stocklist/{stock_type}", tags=["stock list"], responses={200: {"model": StockResponse}})
-# def get_specified_stock_list(stock_type: ModelName):
-#     stock_list = controller.get_stock_list(stock_type.value)
-#     if stock_list:
-#         return {"stock_list": stock_list}
-#     return {"error": "Could not fetch stocks"}
