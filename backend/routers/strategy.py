@@ -15,8 +15,8 @@ class BackTestingResponse(BaseModel):
     win_rate: str
     roi: str
     total_profit: int
-    average_risk_reward_ratio: float
-    profit_factor: float
+    average_risk_reward_ratio: float | str
+    profit_factor: float | str
     
     class Config:
         schema_extra = {

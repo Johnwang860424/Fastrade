@@ -11,8 +11,7 @@ const investLongTerm = document.querySelector("#invest_long_term");
 const type = document.querySelector("#transaction_type");
 
 window.addEventListener("DOMContentLoaded", async () => {
-  // const response = await fetch("https://api.fastrade.store/stocklist/");
-  const response = await fetch("http://125.229.132.212:3000/stocklist/");
+  const response = await fetch("https://api.fastrade.store/stocklist/");
   data = await response.json();
   const stocklist = document.querySelector("#stocklist");
   data.stock_list.forEach((item) => {

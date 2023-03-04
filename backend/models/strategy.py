@@ -75,8 +75,8 @@ def buy_ma(symbol: str, start_date: str, end_date: str, initial_money: int,
             'win_rate': f"{round(win_rate, 2)}%",
             'roi': f"{round(roi, 2)}%",
             'total_profit': int(total_profit),
-            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2),
-            'profit_factor': round(profit_factor, 2),
+            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2) if average_risk_reward_ratio != "無限大" else average_risk_reward_ratio,
+            'profit_factor': round(profit_factor, 2) if profit_factor != "無限大" else profit_factor,
         }
         return metrics
     return None
@@ -156,8 +156,8 @@ def sell_ma(symbol: str, start_date: str, end_date: str, initial_money: int,
             'win_rate': f"{round(win_rate, 2)}%",
             'roi': f"{round(roi, 2)}%",
             'total_profit': int(total_profit),
-            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2),
-            'profit_factor': round(profit_factor, 2),
+            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2) if average_risk_reward_ratio != "無限大" else average_risk_reward_ratio,
+            'profit_factor': round(profit_factor, 2) if profit_factor != "無限大" else profit_factor,
         }
         return metrics
 
@@ -236,8 +236,8 @@ def buy_macd(symbol: str, start_date: str, end_date: str, initial_money: int,
             'win_rate': f"{round(win_rate, 2)}%",
             'roi': f"{round(roi, 2)}%",
             'total_profit': int(total_profit),
-            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2),
-            'profit_factor': round(profit_factor, 2),
+            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2) if average_risk_reward_ratio != "無限大" else average_risk_reward_ratio,
+            'profit_factor': round(profit_factor, 2) if profit_factor != "無限大" else profit_factor,
         }
         return metrics
 
@@ -317,8 +317,9 @@ def sell_macd(symbol: str, start_date: str, end_date: str, initial_money: int,
             'win_rate': f"{round(win_rate, 2)}%",
             'roi': f"{round(roi, 2)}%",
             'total_profit': int(total_profit),
-            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2),
-            'profit_factor': round(profit_factor, 2),
+            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2) if 
+            average_risk_reward_ratio != "無限大" else average_risk_reward_ratio,
+            'profit_factor': round(profit_factor, 2) if profit_factor != "無限大" else profit_factor,
         }
         return metrics
 
@@ -409,8 +410,8 @@ def buy_kd(symbol: str, start_date: str, end_date: str, initial_money: int,
             'win_rate': f"{round(win_rate, 2)}%",
             'roi': f"{round(roi, 2)}%",
             'total_profit': int(total_profit),
-            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2),
-            'profit_factor': round(profit_factor, 2),
+            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2) if average_risk_reward_ratio != "無限大" else "無限大",
+            'profit_factor': round(profit_factor, 2) if profit_factor != "無限大" else "無限大",
         }
         return metrics
 
@@ -501,7 +502,7 @@ def sell_kd(symbol: str, start_date: str, end_date: str, initial_money: int,
             'win_rate': f"{round(win_rate, 2)}%",
             'roi': f"{round(roi, 2)}%",
             'total_profit': int(total_profit),
-            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2),
-            'profit_factor': round(profit_factor, 2),
+            'average_risk_reward_ratio': round(average_risk_reward_ratio, 2) if average_risk_reward_ratio != "無限大" else "無限大",
+            'profit_factor': round(profit_factor, 2) if profit_factor != "無限大" else "無限大",
         }
         return metrics
