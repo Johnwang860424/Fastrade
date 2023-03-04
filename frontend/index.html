@@ -23,7 +23,20 @@
   </head>
 
   <body class="bg-secondary bg-gradient bg-opacity-25">
+    <div
+      id="loading"
+      class="spinner-border text-black-50 position-absolute top-50 start-50 d-none"
+      style="z-index: 2"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
     <header class="fixed-top">
+      <div
+        id="loading-bg"
+        class="bg-secondary position-fixed opacity-50 w-100 h-100 d-none"
+        style="z-index: 1"
+      ></div>
       <nav class="navbar navbar-dark bg-dark bg-gradient">
         <div class="container">
           <a
@@ -41,7 +54,6 @@
         </div>
       </nav>
     </header>
-
     <main style="min-height: calc(100vh - 70px - 82px)">
       <div class="container" style="margin-top: 82px">
         <div class="row">
@@ -66,13 +78,18 @@
                 </div>
                 <div class="col-md-12">
                   <div class="input-group mb-3">
-                    <label class="input-group-text" for="transaction_type"
-                      >買賣類型</label
-                    >
-                    <select class="form-select" id="transaction_type">
-                      <option value="buy">做多</option>
-                      <option value="sell">做空</option>
-                    </select>
+                    <span class="input-group-text">初始金額</span>
+                    <input
+                      id="initial_amount"
+                      type="number"
+                      class="form-control"
+                      aria-label="initial amount"
+                      placeholder="請輸入起始金額"
+                      max="9999"
+                      min="10"
+                      required
+                    />
+                    <span class="input-group-text">萬</span>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -99,33 +116,33 @@
                     />
                   </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
+                  <div class="input-group mb-3">
+                    <label class="input-group-text" for="transaction_type"
+                      >買賣類型</label
+                    >
+                    <select class="form-select" id="transaction_type">
+                      <option value="buy">做多</option>
+                      <option value="sell">做空</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="invest_strategy"
-                      >進場策略</label
+                      >交易策略</label
                     >
                     <select class="form-select" id="invest_strategy">
-                      <option value="Average">均線</option>
+                      <option value="MA">MA</option>
                       <option value="MACD">MACD</option>
                       <option value="KD">KD</option>
                     </select>
                   </div>
                 </div>
-                <!-- <div class="col-md-6">
-                  <div class="input-group mb-3">
-                    <label class="input-group-text" for="invest_strategy"
-                      >進場策略</label
-                    >
-                    <select class="form-select" id="invest_strategy">
-                      <option value="gold">黃金交叉</option>
-                      <option value="dead">死亡交叉</option>
-                    </select>
-                  </div>
-                </div> -->
                 <div class="col-md-6">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="invest_short_term"
-                      >短天期參數</label
+                      >短期均線參數</label
                     >
                     <input
                       type="number"
@@ -140,56 +157,14 @@
                 <div class="col-md-6">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="invest_long_term"
-                      >長天期參數</label
+                      >長期均線參數</label
                     >
                     <input
                       type="number"
                       id="invest_long_term"
                       class="form-control"
                       min="10"
-                      value="10"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="input-group mb-3">
-                    <label class="input-group-text" for="leave_strategy"
-                      >出場策略</label
-                    >
-                    <select class="form-select" id="leave_strategy">
-                      <option value="Average">均線</option>
-                      <option value="MACD">MACD</option>
-                      <option value="KD">KD</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="input-group mb-3">
-                    <label class="input-group-text" for="leave_short_term"
-                      >短天期參數</label
-                    >
-                    <input
-                      type="number"
-                      id="leave_short_term"
-                      class="form-control"
-                      min="5"
-                      value="5"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="input-group mb-3">
-                    <label class="input-group-text" for="leave_long_term"
-                      >長天期參數</label
-                    >
-                    <input
-                      type="number"
-                      id="leave_long_term"
-                      class="form-control"
-                      min="10"
-                      value="10"
+                      value="20"
                       required
                     />
                   </div>
@@ -202,31 +177,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="container mb-3" style="margin-top: 82px">
-        <div
-          id="main"
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4"
-        >
-          <div
-            class="col pt-3 d-flex align-items-center justify-content-center"
-          >
-            <button id="addColumnBtn" type="button" class="btn btn-secondary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
-                fill="currentColor"
-                class="bi bi-plus-circle-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div> -->
     </main>
 
     <footer
@@ -245,9 +195,3 @@
     <script type="module" src="assets/js/index.js"></script>
   </body>
 </html>
-
-<!-- <button
-                type="button"
-                class="btn-close position-absolute top-0 end-0"
-                aria-label="Close"
-              ></button> -->
