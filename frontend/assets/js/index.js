@@ -11,7 +11,8 @@ const investLongTerm = document.querySelector("#invest_long_term");
 const type = document.querySelector("#transaction_type");
 
 window.addEventListener("DOMContentLoaded", async () => {
-  const response = await fetch("https://api.fastrade.store/stocklist/");
+  // const response = await fetch("https://api.fastrade.store/stocklist/");
+  const response = await fetch("http://192.168.10.85:3000/stocklist/");
   data = await response.json();
   const stocklist = document.querySelector("#stocklist");
   data.stock_list.forEach((item) => {
@@ -27,8 +28,11 @@ setTime(startDate, endDate);
 // 依據進場策略顯示不同參數;
 strategy.addEventListener("change", (e) => {
   if (e.target.value === "MA") {
+    investShortTerm.addEventListener("input", handleInputChange, true);
+    investLongTerm.addEventListener("input", handleInputChange, true);
     investShortTerm.value = 5;
     investLongTerm.value = 20;
+    investLongTerm.min = 10;
     investShortTerm.previousElementSibling.textContent = "短期均線參數";
     investLongTerm.previousElementSibling.textContent = "長期均線參數";
     investShortTerm.parentElement.parentElement.classList.replace(
@@ -43,10 +47,13 @@ strategy.addEventListener("change", (e) => {
       document.querySelector("#dif").parentElement.parentElement.remove();
     }
   } else if (e.target.value === "MACD" && !document.querySelector("#dif")) {
+    investShortTerm.addEventListener("input", handleInputChange, true);
+    investLongTerm.addEventListener("input", handleInputChange, true);
     investShortTerm.previousElementSibling.textContent = "短期均線參數";
     investLongTerm.previousElementSibling.textContent = "長期均線參數";
     investShortTerm.value = 12;
     investLongTerm.value = 26;
+    investLongTerm.min = 10;
     investShortTerm.parentElement.parentElement.classList.replace(
       "col-md-6",
       "col-md-4"
@@ -76,6 +83,8 @@ strategy.addEventListener("change", (e) => {
     );
     element.insertAdjacentHTML("beforebegin", dif);
   } else if (e.target.value === "KD") {
+    investShortTerm.removeEventListener("input", handleInputChange, true);
+    investLongTerm.removeEventListener("input", handleInputChange, true);
     investShortTerm.previousElementSibling.textContent = "RSV參數";
     investLongTerm.previousElementSibling.textContent = "均線參數";
     investShortTerm.value = 9;
@@ -132,24 +141,21 @@ endDate.addEventListener("change", (e) => {
   }
 });
 
-// 進場短天期參數驗證
-investShortTerm.addEventListener("input", (e) => {
-  if (parseInt(e.target.value) >= parseInt(investLongTerm.value)) {
-    e.target.setCustomValidity("短天期參數必須小於長天期參數");
+// 驗證天期參數函式
+function handleInputChange(event) {
+  if (parseInt(investShortTerm.value) >= parseInt(investLongTerm.value)) {
+    event.target.setCustomValidity("短天期參數必須小於長天期參數");
   } else {
-    e.target.setCustomValidity("");
+    investShortTerm.setCustomValidity("");
+    investLongTerm.setCustomValidity("");
   }
-});
+}
+
+// 進場短天期參數驗證
+investShortTerm.addEventListener("input", handleInputChange, true);
 
 // 進場長天期參數驗證
-investLongTerm.addEventListener("input", (e) => {
-  if (parseInt(investShortTerm.value) >= parseInt(e.target.value)) {
-    investShortTerm.setCustomValidity("");
-    e.target.setCustomValidity("長天期參數必須大於短天期參數");
-  } else {
-    e.target.setCustomValidity("");
-  }
-});
+investLongTerm.addEventListener("input", handleInputChange, true);
 
 // 送出表單
 form.addEventListener("submit", (event) => {
@@ -169,12 +175,15 @@ form.addEventListener("submit", (event) => {
       loading.classList.remove("d-none");
       loadingBg.classList.remove("d-none");
       if (strategy.value === "MA") {
-        url = `https://api.fastrade.store/strategy/MA?transaction_type=${type.value}&short_term_ma=${shortTerm}&long_term_ma=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        // url = `https://api.fastrade.store/strategy/MA?transaction_type=${type.value}&short_term_ma=${shortTerm}&long_term_ma=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        url = `http://192.168.10.85:3000/strategy/MA?transaction_type=${type.value}&short_term_ma=${shortTerm}&long_term_ma=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
       } else if (strategy.value === "KD") {
-        url = `https://api.fastrade.store/strategy/KD?transaction_type=${type.value}&recent_days=${shortTerm}&k_d_argument=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        // url = `https://api.fastrade.store/strategy/KD?transaction_type=${type.value}&recent_days=${shortTerm}&k_d_argument=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        url = `http://192.168.10.85:3000/strategy/KD?transaction_type=${type.value}&recent_days=${shortTerm}&k_d_argument=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
       } else if (strategy.value === "MACD") {
         const dif = parseInt(document.querySelector("#dif").value);
-        url = `https://api.fastrade.store/strategy/MACD?transaction_type=${type.value}&short_term_macd=${shortTerm}&long_term_macd=${longTerm}&signal_dif=${dif}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        // url = `https://api.fastrade.store/strategy/MACD?transaction_type=${type.value}&short_term_macd=${shortTerm}&long_term_macd=${longTerm}&signal_dif=${dif}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        url = `http://192.168.10.85:3000/strategy/MACD?transaction_type=${type.value}&short_term_macd=${shortTerm}&long_term_macd=${longTerm}&signal_dif=${dif}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
       }
       try {
         const response = await fetch(url);
