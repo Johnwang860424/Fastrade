@@ -11,8 +11,7 @@ const investLongTerm = document.querySelector("#invest_long_term");
 const type = document.querySelector("#transaction_type");
 
 window.addEventListener("DOMContentLoaded", async () => {
-  // const response = await fetch("https://api.fastrade.store/stocklist/");
-  const response = await fetch("http://192.168.10.85:3000/stocklist/");
+  const response = await fetch("https://api.fastrade.store/stocklist/");
   data = await response.json();
   const stocklist = document.querySelector("#stocklist");
   data.stock_list.forEach((item) => {
@@ -175,15 +174,12 @@ form.addEventListener("submit", (event) => {
       loading.classList.remove("d-none");
       loadingBg.classList.remove("d-none");
       if (strategy.value === "MA") {
-        // url = `https://api.fastrade.store/strategy/MA?transaction_type=${type.value}&short_term_ma=${shortTerm}&long_term_ma=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
-        url = `http://192.168.10.85:3000/strategy/MA?transaction_type=${type.value}&short_term_ma=${shortTerm}&long_term_ma=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        url = `https://api.fastrade.store/strategy/MA?transaction_type=${type.value}&short_term_ma=${shortTerm}&long_term_ma=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
       } else if (strategy.value === "KD") {
-        // url = `https://api.fastrade.store/strategy/KD?transaction_type=${type.value}&recent_days=${shortTerm}&k_d_argument=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
-        url = `http://192.168.10.85:3000/strategy/KD?transaction_type=${type.value}&recent_days=${shortTerm}&k_d_argument=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        url = `https://api.fastrade.store/strategy/KD?transaction_type=${type.value}&recent_days=${shortTerm}&k_d_argument=${longTerm}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
       } else if (strategy.value === "MACD") {
         const dif = parseInt(document.querySelector("#dif").value);
-        // url = `https://api.fastrade.store/strategy/MACD?transaction_type=${type.value}&short_term_macd=${shortTerm}&long_term_macd=${longTerm}&signal_dif=${dif}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
-        url = `http://192.168.10.85:3000/strategy/MACD?transaction_type=${type.value}&short_term_macd=${shortTerm}&long_term_macd=${longTerm}&signal_dif=${dif}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
+        url = `https://api.fastrade.store/strategy/MACD?transaction_type=${type.value}&short_term_macd=${shortTerm}&long_term_macd=${longTerm}&signal_dif=${dif}&initial_capital=${investAmount}&start_date=${startDate.value}&end_date=${endDate.value}&symbol=${symbolNum}`;
       }
       try {
         const response = await fetch(url);
