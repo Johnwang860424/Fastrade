@@ -1,7 +1,7 @@
 # [Fastrade](https://fastrade.store/)
 
 <p align="center">
-  <img width="150" src="https://github.com/Johnwang860424/Fastrade/blob/main/frontend/assets/img/logo.png?raw=true">
+  <img width="150" src="logo.png">
 </p>
 
 Fastrade is a backtesting website that provides historical trading data for the Taiwan Stock Exchange and the Taipei Exchange since 2000. In addition, it offers three different trading strategies for users to choose from.
