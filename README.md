@@ -87,7 +87,7 @@ Fastrade is a backtesting website that provides historical trading data for the 
 ## :point_down:Database Schema
 
 - each stock has an original stock price table and a adjusted stock price table
-  ![image](MySQL.png)
+  ![image](mysql.png)
 
 ## :point_down:Frontend Technique
 
