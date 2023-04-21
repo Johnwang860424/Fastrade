@@ -4,20 +4,23 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
+
 class StockListResponse(BaseModel):
     symbol: str
     name: str
-    
-    class Config:
 
+    class Config:
         schema_extra = {
-            "example": {"stock_list":[
-            {
-                "symbol": "1101",
-                "name": "台泥",
+            "example": {
+                "stock_list": [
+                    {
+                        "symbol": "1101",
+                        "name": "台泥",
+                    }
+                ]
             }
-                ]}
         }
+
 
 @router.get("/stocklist/", tags=["stock list"], responses={200: {"model": StockListResponse}})
 async def get_stock_list(stocktype: str = Query(None, description="股票清單類型：\n\n空白：上市櫃股票清單\n\nlisted：上市股票清單\n\nOTC：上櫃股票清單", regex="^(listed|OTC)$")):

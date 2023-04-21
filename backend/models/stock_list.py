@@ -1,9 +1,10 @@
 from .config import connection
 
+
 class StockList:
     def __init__(self, stock_type: str):
         self.type = stock_type
-    
+
     def get_all_stock_list():
         try:
             stock_connection = connection.get_connection()
@@ -17,7 +18,7 @@ class StockList:
             return False
         finally:
             stock_connection.close()
-            
+
     def get_specified_stock_list(self):
         try:
             stock_connection = connection.get_connection()
@@ -32,4 +33,3 @@ class StockList:
             return False
         finally:
             stock_connection.close()
-    

@@ -8,6 +8,7 @@ import pytz
 
 load_dotenv(dotenv_path="backend\.env")
 
+
 class CapitalReductionCrawler:
     tw_time = pytz.timezone('Asia/Taipei')
     tw_time = datetime.now(tw_time)
@@ -15,11 +16,11 @@ class CapitalReductionCrawler:
     OTC_current_date = tw_time.strftime("%Y/%m/%d")
     year = str(int(OTC_current_date[:4]) - 1911)
     OTC_current_date = OTC_current_date.replace(OTC_current_date[:4], year)
-    
+
     def __init__(self, category: str) -> None:
         self.url = f"https://www.twse.com.tw/zh/exchangeReport/TWTAUU?   response=json&strDate={self.listed_current_date}&endDate={self.listed_current_date}" if category == "listed" else f"https://www.tpex.org.tw/web/stock/exright/revivt/revivt_result.php?l=zh-tw&d={self.OTC_current_date}&ed={self.OTC_current_date}"
         self.data = self.__get_reduction_data()
-        
+
     def __get_reduction_data(self):
         try:
             response = requests.get(self.url)
@@ -28,23 +29,24 @@ class CapitalReductionCrawler:
             return response.json()
         except Exception as e:
             print(e)
-            
+
+
 class AdjustPrice:
     connection = MySQLConnectionPool(user=os.getenv("SQL_USER"),
-                            password=os.getenv("SQL_PASSWORD"),
-                            host=os.getenv("SQL_HOST"),
-                            port=os.getenv("SQL_PORT"),
-                            database=os.getenv("SQL_DATABASE"),
-                            pool_name = "crawler",
-                            pool_size = 4)
-    
+                                     password=os.getenv("SQL_PASSWORD"),
+                                     host=os.getenv("SQL_HOST"),
+                                     port=os.getenv("SQL_PORT"),
+                                     database=os.getenv("SQL_DATABASE"),
+                                     pool_name="crawler",
+                                     pool_size=4)
+
     def __init__(self, data: dict) -> None:
         self.data = data
         self.new_data = self.data_transfer()
-        
+
     def data_transfer(self):
         pass
-    
+
     def insert_capital_reduction_value(self):
         stock_connection = self.connection.get_connection()
         try:
@@ -57,7 +59,7 @@ class AdjustPrice:
             print(e)
         finally:
             stock_connection.close()
-         
+
     def update_adjust_price(self):
         stock_connection = self.connection.get_connection()
         try:
@@ -70,17 +72,18 @@ class AdjustPrice:
                             close = close * %s
                         WHERE date < '%s' """ % (table_name, mult, mult, mult, mult, item[1])
                     cursor.execute(sql)
-                    
+
                 stock_connection.commit()
                 return cursor.rowcount
         except Exception as e:
             print(e)
             return False
 
+
 class ListedStock(AdjustPrice):
     def __init__(self, data: dict) -> None:
         super().__init__(data)
-    
+
     def data_transfer(self):
         new_data = []
         if self.data["stat"] == "OK":
@@ -92,7 +95,8 @@ class ListedStock(AdjustPrice):
                 item[4] = item[4].replace(",", "")
                 new_data.append((item[1], item[0], item[3], item[4]))
             return new_data
-                
+
+
 class OTCStock(AdjustPrice):
     def __init__(self, data: dict) -> None:
         super().__init__(data)
@@ -106,7 +110,8 @@ class OTCStock(AdjustPrice):
                 item[4] = item[4].replace(",", "")
                 new_data.append((item[1], item[0], item[3], item[4]))
             return new_data
-            
+
+
 def lambda_handler(event, context):
     listed = CapitalReductionCrawler("listed").data
     OTC = CapitalReductionCrawler("OTC").data

@@ -13,12 +13,13 @@ connection = MySQLConnectionPool(user=os.getenv("SQL_USER"),
                                  host=os.getenv("SQL_HOST"),
                                  port=os.getenv("SQL_PORT"),
                                  database=os.getenv("SQL_DATABASE"),
-                                 pool_name = "crawler",
-                                 pool_size = 4)
+                                 pool_name="crawler",
+                                 pool_size=4)
 
 sqs = boto3.client('sqs')
 queue_name = 'OTC_price_crawler.fifo'
 queue_url = sqs.get_queue_url(QueueName=queue_name).get('QueueUrl')
+
 
 def insert_current_price(symbol, data: list[tuple]):
     stock_connection = connection.get_connection()
@@ -30,7 +31,8 @@ def insert_current_price(symbol, data: list[tuple]):
     except Exception as e:
         print(symbol)
         print(e)
-        
+
+
 def insert_adj_price(symbol, data: list[tuple]):
     stock_connection = connection.get_connection()
     try:
@@ -41,6 +43,7 @@ def insert_adj_price(symbol, data: list[tuple]):
     except Exception as e:
         print(symbol)
         print(e)
+
 
 def OTC_price_crawler(request_body) -> list:
     url = "https://www.tpex.org.tw/web/stock/aftertrading/daily_trading_info/st43_result.php?l=zh-tw"
@@ -62,6 +65,7 @@ def OTC_price_crawler(request_body) -> list:
             item[-1] = item[-1].replace(",", "")
             data[i] = tuple(item)
         return data
+
 
 def lambda_handler(event, context):
     messages = event['Records']

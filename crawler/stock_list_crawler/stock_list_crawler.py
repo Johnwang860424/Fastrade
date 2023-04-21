@@ -21,75 +21,47 @@ connection = MySQLConnectionPool(user=os.getenv("SQL_USER"),
                                  pool_name = "crawler",
                                  pool_size = 4)
 
-def switch_category(cat: str):
-    if cat == "水泥工業":
-        return "01"
-    elif cat == "食品工業":
-        return "02"
-    elif cat == "塑膠工業":
-        return "03"
-    elif cat == "紡織纖維":
-        return "04"
-    elif cat == "電機機械":
-        return "05"
-    elif cat == "電器電纜":
-        return "06"
-    elif cat == "玻璃陶瓷":
-        return "08"
-    elif cat == "造紙工業":
-        return "09"
-    elif cat == "鋼鐵工業":
-        return "10"
-    elif cat == "橡膠工業":
-        return "11"
-    elif cat == "汽車工業":
-        return "12"
-    elif cat == "電子工業":
-        return "13"
-    elif cat == "建材營造業":
-        return "14"
-    elif cat == "航運業":
-        return "15"
-    elif cat == "觀光事業":
-        return "16"
-    elif cat == "金融保險業":
-        return "17"
-    elif cat == "貿易百貨業":
-        return "18"
-    elif cat == "綜合":
-        return "19"
-    elif cat == "其他業":
-        return "20"
-    elif cat == "化學工業":
-        return "21"
-    elif cat == "生技醫療業":
-        return "22"
-    elif cat == "油電燃氣業":
-        return "23"
-    elif cat == "半導體業":
-        return "24"
-    elif cat == "電腦及週邊設備業":
-        return "25"
-    elif cat == "光電業":
-        return "26"
-    elif cat == "通信網路業":
-        return "27"
-    elif cat == "電子零組件業":
-        return "28"
-    elif cat == "電子通路業":
-        return "29"
-    elif cat == "資訊服務業":
-        return "30"
-    elif cat == "其他電子業":
-        return "31"
-    elif cat == "文化創意業":
-        return "32"
-    elif cat == "農業科技業":
-        return "33"
-    elif cat == "電子商務":
-        return "34"
+CATEGORY_MAPPING = {
+    "水泥工業": "01",
+    "食品工業": "02",
+    "塑膠工業": "03",
+    "紡織纖維": "04",
+    "電機機械": "05",
+    "電器電纜": "06",
+    "玻璃陶瓷": "08",
+    "造紙工業": "09",
+    "鋼鐵工業": "10",
+    "橡膠工業": "11",
+    "汽車工業": "12",
+    "電子工業": "13",
+    "建材營造業": "14",
+    "航運業": "15",
+    "觀光事業": "16",
+    "金融保險業": "17",
+    "貿易百貨業": "18",
+    "綜合": "19",
+    "其他業": "20",
+    "化學工業": "21",
+    "生技醫療業": "22",
+    "油電燃氣業": "23",
+    "半導體業": "24",
+    "電腦及週邊設備業": "25",
+    "光電業": "26",
+    "通信網路業": "27",
+    "電子零組件業": "28",
+    "電子通路業": "29",
+    "資訊服務業": "30",
+    "其他電子業": "31",
+    "文化創意業": "32",
+    "農業科技業": "33",
+    "電子商務": "34",
+}
 
-        
+
+def switch_category(cat: str):
+    return CATEGORY_MAPPING.get(cat, "")
+
+
 def stock_list(url: str) -> list:
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -115,6 +87,7 @@ def stock_list(url: str) -> list:
             data.append((symbol, name, market, industry, date))
     return data
 
+
 def insert_stock(data: list):
     stock_connection = connection.get_connection()
     try:
@@ -131,7 +104,8 @@ def insert_stock(data: list):
         return e
     finally:
         stock_connection.close()
-        
+       
+       
 def lambda_handler(event, context):
     listed = stock_list(listed_url)
     otc = stock_list(otc_url)

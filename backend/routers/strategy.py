@@ -7,6 +7,7 @@ from . import valid
 
 router = APIRouter()
 
+
 class BackTestingResponse(BaseModel):
     total_days: int
     total_trades: int
@@ -31,9 +32,10 @@ class BackTestingResponse(BaseModel):
                     "total_profit": 27535,
                     "average_risk_reward_ratio": 1.75,
                     "profit_factor": 1.09
-                    }
                 }
             }
+        }
+
 
 class CaseInsensitiveEnum(Enum):
     @classmethod
@@ -50,6 +52,7 @@ class ModelName(CaseInsensitiveEnum):
     ma = "MA"
     macd = "MACD"
     kd = "KD"
+
 
 @router.get("/strategy/{strategy}", tags=["strategy"], responses={200: {"model": BackTestingResponse}})
 async def strategy(

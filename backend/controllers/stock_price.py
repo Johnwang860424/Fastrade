@@ -1,5 +1,6 @@
 import models
 
+
 def get_price(symbol: str, start_date: str, end_date: str, price_type: str):
     price_list = models.StockPrice(symbol, start_date, end_date)
     if price_type == "origin":

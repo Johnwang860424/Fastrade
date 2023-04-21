@@ -28,6 +28,7 @@ OTC_current_date = tw_time.strftime("%Y/%m")
 year = str(int(OTC_current_date[:4]) - 1911)
 OTC_current_date = OTC_current_date.replace(OTC_current_date[:4], year)
 
+
 def get_stock_list(stock_type: str="%") -> list:
     """取得上市/櫃股票清單
     """
@@ -41,6 +42,7 @@ def get_stock_list(stock_type: str="%") -> list:
         print(e)
     finally:
         stock_connection.close()
+
 
 def lambda_handler(event, context):
     sqs = boto3.client('sqs')

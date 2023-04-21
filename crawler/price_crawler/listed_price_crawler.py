@@ -13,12 +13,13 @@ connection = MySQLConnectionPool(user=os.getenv("SQL_USER"),
                                  host=os.getenv("SQL_HOST"),
                                  port=os.getenv("SQL_PORT"),
                                  database=os.getenv("SQL_DATABASE"),
-                                 pool_name = "crawler",
-                                 pool_size = 4)
+                                 pool_name="crawler",
+                                 pool_size=4)
 
 sqs = boto3.client('sqs')
 queue_name = 'listed_price_crawler.fifo'
 queue_url = sqs.get_queue_url(QueueName=queue_name).get('QueueUrl')
+
 
 def insert_current_price(symbol, data: list[tuple]):
     stock_connection = connection.get_connection()
@@ -30,7 +31,8 @@ def insert_current_price(symbol, data: list[tuple]):
     except Exception as e:
         print(symbol)
         print(e)
-        
+
+
 def insert_adj_price(symbol, data: list[tuple]):
     stock_connection = connection.get_connection()
     try:
@@ -41,11 +43,11 @@ def insert_adj_price(symbol, data: list[tuple]):
     except Exception as e:
         print(symbol)
         print(e)
-        
+
+
 def listed_price_crawler(request_body) -> list:
-    url = "https://www.twse.com.tw/zh/exchangeReport/STOCK_DAY"
-    params = request_body
-    res = requests.post(url, params=params)
+    url = f"https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY?date={request_body['date']}&stockNo={request_body['stockNo']}&response=json"
+    res = requests.get(url)
     if "data" in res.json():
         data = res.json()["data"][-5:]
         for i, item in enumerate(data):
@@ -62,7 +64,8 @@ def listed_price_crawler(request_body) -> list:
             item[-1] = item[-1].replace(",", "")
             data[i] = tuple(item)
         return data
-        
+
+
 def lambda_handler(event, context):
     messages = event['Records']
     for message in messages:
@@ -81,7 +84,7 @@ def lambda_handler(event, context):
                 ReceiptHandle=message['receiptHandle']
             )
             time.sleep(4)
-        
+
     # TODO implement
     return {
         'statusCode': 200,

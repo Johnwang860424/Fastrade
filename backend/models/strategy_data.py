@@ -1,10 +1,11 @@
 from .config import connection
 from datetime import datetime
 
+
 class StrategyData:
     def __init__(self, symbol: str):
         self.symbol = symbol
-        
+
     def get_ma_data(self, start_date, end_date, long_term_ma) -> list | None:
         long_term = long_term_ma * 4
         target_date = datetime.strptime(start_date, '%Y-%m-%d').date()
@@ -17,7 +18,7 @@ class StrategyData:
                                     WHERE close != 0.00
                                     AND date 
                                     BETWEEN DATE_SUB(%s, INTERVAL %s DAY) AND %s""")
-                cursor.execute(stock_list_query, (start_date, long_term, 
+                cursor.execute(stock_list_query, (start_date, long_term,
                                                   end_date))
                 data = cursor.fetchall()
                 new_data = []
@@ -37,7 +38,7 @@ class StrategyData:
             return False
         finally:
             stock_connection.close()
-            
+
     def get_kd_data(self, end_date) -> list | None:
         try:
             stock_connection = connection.get_connection()
