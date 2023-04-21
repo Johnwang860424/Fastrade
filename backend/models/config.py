@@ -9,6 +9,6 @@ connection = MySQLConnectionPool(user=os.getenv("SQL_USER"),
                                  host=os.getenv("SQL_HOST"),
                                  port=os.getenv("SQL_PORT"),
                                  database=os.getenv("SQL_DATABASE"),
-                                 pool_name = "api",
+                                 pool_name="api",
                                  pool_size=10,
                                  connect_timeout=60)

@@ -95,7 +95,7 @@ class AdjustPrice:
             print(e)
         finally:
             stock_connection.close()
-        
+            
     def insert_stock_dividend(self):
         stock_connection = self.connection.get_connection()
         try:
@@ -108,6 +108,7 @@ class AdjustPrice:
             print(e)
         finally:
             stock_connection.close()
+            
             
     def update_adjust_price(self, date, mult):
         stock_connection = self.connection.get_connection()
@@ -126,6 +127,7 @@ class AdjustPrice:
             return False
         finally:
             stock_connection.close()
+
 
 def lambda_handler(event, context):
     message = json.loads(event["Records"][0]["body"].replace("'", "\""))

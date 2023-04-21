@@ -3,6 +3,7 @@ from .strategy_data import StrategyData
 import numpy as np
 import pandas as pd
 
+
 def buy_ma(symbol: str, start_date: str, end_date: str, initial_money: int, 
            short_term_ma: int, long_term_ma: int) -> dict:
     # Convert data to numpy array for easier calculation
@@ -323,6 +324,7 @@ def sell_macd(symbol: str, start_date: str, end_date: str, initial_money: int,
         }
         return metrics
 
+
 def buy_kd(symbol: str, start_date: str, end_date: str, initial_money: int,     
            day: int, window: int) -> dict:
     data = StrategyData(symbol).get_kd_data(end_date)
@@ -414,6 +416,7 @@ def buy_kd(symbol: str, start_date: str, end_date: str, initial_money: int,
             'profit_factor': round(profit_factor, 2) if profit_factor != "無限大" else "無限大",
         }
         return metrics
+
 
 def sell_kd(symbol: str, start_date: str, end_date: str, initial_money: int,
             day: int, window: int) -> dict:

@@ -48,7 +48,6 @@ def insert_adj_price(symbol, data: list[tuple]):
 def listed_price_crawler(request_body) -> list:
     url = f"https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY?date={request_body['date']}&stockNo={request_body['stockNo']}&response=json"
     res = requests.get(url)
-    # res = requests.post(url, params=params)
     if "data" in res.json():
         data = res.json()["data"][-5:]
         for i, item in enumerate(data):

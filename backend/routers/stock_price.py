@@ -4,17 +4,18 @@ from pydantic import BaseModel
 from . import valid
 
 router = APIRouter()
-    
+
+
 class StockPriceResponse(BaseModel):
     date: str
     open: float
     min: float
     max: float
     close: float
-    
+
     class Config:
         schema_extra = {
-            "example": {"stock_price":[
+            "example": {"stock_price": [
                 {
                     "date": "2023-02-01",
                     "open": 532,
@@ -25,12 +26,13 @@ class StockPriceResponse(BaseModel):
             ]}
         }
 
+
 @router.get("/stockprice/", tags=["stock price"], responses={200: {"model": StockPriceResponse}})
 async def get_stock_price(
-    start_date: str = Query(None),
-    end_date: str = Depends(valid.validate_date),
-    symbol: str = Depends(valid.validate_symbol),
-    price_type: str = Depends(valid.validate_price_type),
+        start_date: str = Query(None),
+        end_date: str = Depends(valid.validate_date),
+        symbol: str = Depends(valid.validate_symbol),
+        price_type: str = Depends(valid.validate_price_type),
 ):
     """
     根據股票代碼、起始日期、結束日期、價格類型取得股價資料
