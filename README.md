@@ -58,6 +58,7 @@ Fastrade is a backtesting website that provides historical trading data for the 
 - SQS
 - EventBridge
 - CloudWatch
+- ElastiCache
 
 ### Networking
 
